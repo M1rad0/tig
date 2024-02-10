@@ -1,5 +1,8 @@
 package web;
 
+//NOTES : ASORY LE INIT PARAMETER HOE BASE
+//D RAH BASE NO ANGATAHINY D LE PATHNLE DEMANDE OVAITSIKA HOE "Base" d any am serveur voa traiteny
+
 import java.io.*;
 import java.net.Socket;
 
@@ -8,9 +11,7 @@ import javax.servlet.http.*;
 import transfer.*;
 
 public class TakeRepresetory extends HttpServlet {
-
     private int port;
-    private String repertoireDeBase;
     public void init() throws ServletException {
 
         String initial = this.getInitParameter("port");
@@ -19,8 +20,6 @@ public class TakeRepresetory extends HttpServlet {
     } catch(NumberFormatException e) {
         port = 0;
         }
-
-        repertoireDeBase=this.getInitParameter("base");
     }
 
     public int getPort() {
@@ -30,13 +29,17 @@ public class TakeRepresetory extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Socket serveur=null;
+        ObjectOutputStream oos=null;
+        ObjectInputStream ois=null;
+
         try  {
             PrintWriter out=response.getWriter();
             String server=this.getInitParameter("serveur");
             String username=request.getParameter("username");
             int portServer=0;
-            out.println(server);
             int testPort=getPort();
+
             if (testPort==0) {
                 out.println("port introuvable");
             }
@@ -46,21 +49,20 @@ public class TakeRepresetory extends HttpServlet {
 
             String path= request.getParameter("path");
             if(path==null){
-                path=repertoireDeBase;
+                //Io le izy
+                path="Base";
             }
             else{
-                
                 path=path.replace("*","\\");
-                System.out.println("path :"+path);     
             }
             String dem="dir";
             Demande demande= new Demande(dem,path);
-            Socket serveur=new Socket(server,portServer);
+            serveur=new Socket(server,portServer);
 
-            ObjectOutputStream oos=new ObjectOutputStream(serveur.getOutputStream());
+            oos=new ObjectOutputStream(serveur.getOutputStream());
             oos.writeObject(demande);
 
-            ObjectInputStream ois=new ObjectInputStream(serveur.getInputStream());
+            ois=new ObjectInputStream(serveur.getInputStream());
             
             File[] reception=(File[])ois.readObject();
 
@@ -71,8 +73,18 @@ public class TakeRepresetory extends HttpServlet {
                 
         }   
         catch (Exception e) {
-            
             e.printStackTrace();
+        }
+        finally{
+            if(serveur!=null){
+                serveur.close();
+            }
+            if(oos!=null){
+                oos.close();
+            }
+            if(ois!=null){
+                ois.close();
+            }
         }
     }
     
