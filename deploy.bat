@@ -1,2 +1,2 @@
-javac -d ./forWebApps/WEB-INF/classes ./extensionsReseau/*.java
-cp ./forWebApps -R C:/xampp/tomcat/webapps/GitRohy
+javac -d ./forWebApps/WEB-INF/classes ./extensionReseaux/*.java
+Xcopy /s /e .\forWebApps C:\xampp\tomcat\webapps\GitRohy 
