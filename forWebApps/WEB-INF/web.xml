@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+  version="4.0">
+	<display-name>Application WEB pour télecharger un fichier</display-name>
+	
+	<servlet>
+		<servlet-name>InscriptionClient</servlet-name>
+		<servlet-class>web.TakeRepresetory</servlet-class>
+			<init-param>
+				<param-name>port</param-name>
+				<param-value> 12345</param-value>
+				<description>Valeur initiale du port</description>
+			</init-param>
+			<init-param>
+				<param-name>serveur</param-name>
+				<param-value>172.20.5.67</param-value>
+				<description>Valeur initiale du serveur</description>
+			</init-param>
+			<init-param>
+				<param-name>base</param-name>
+				<param-value>C:\BaseGit</param-value>
+				<description>Valeur du dossier de base</description>
+			</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>getFile</servlet-name>
+		<servlet-class>web.GetFile</servlet-class>
+			<init-param>
+				<param-name>serveur</param-name>
+				<param-value>172.20.5.67</param-value>
+				<description>Valeur initiale du serveur</description>
+			</init-param>
+			<init-param>
+				<param-name>port</param-name>
+				<param-value> 12345</param-value>
+				<description>Valeur initiale du port</description>
+			</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>servletInsertFile</servlet-name>
+		<servlet-class>web.ServletInsert</servlet-class>
+		<init-param>
+				<param-name>serveur</param-name>
+				<param-value>172.20.5.67</param-value>
+				<description>Valeur initiale du serveur</description>
+			</init-param>
+			<init-param>
+				<param-name>port</param-name>
+				<param-value> 12345</param-value>
+				<description>Valeur initiale du port</description>
+			</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>InscriptionClient</servlet-name>
+		<url-pattern>/dossier</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>getFile</servlet-name>
+		<url-pattern>/upload</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>servletInsertFile</servlet-name>
+		<url-pattern>/ServletInsertFile</url-pattern>
+	</servlet-mapping>
+
+</web-app>
