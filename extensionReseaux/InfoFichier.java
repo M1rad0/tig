@@ -28,7 +28,8 @@ public class InfoFichier implements Serializable{
     }
 
     public String getName(){
-        String[] tabRel=relativePath.split("\\");
+        String[] tabRel=relativePath.split("\\\\");
+
         return tabRel[tabRel.length-1];
     }
 

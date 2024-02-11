@@ -50,7 +50,7 @@ public class TakeRepresetory extends HttpServlet {
             String path= request.getParameter("path");
             if(path==null){
                 //Io le izy
-                path="Base";
+                path="base";
             }
             else{
                 path=path.replace("*","\\");
@@ -64,7 +64,7 @@ public class TakeRepresetory extends HttpServlet {
 
             ois=new ObjectInputStream(serveur.getInputStream());
             
-            File[] reception=(File[])ois.readObject();
+            InfoFichier[] reception=(InfoFichier[])ois.readObject();
 
             request.setAttribute("files",reception);
 

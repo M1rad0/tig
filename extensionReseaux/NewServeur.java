@@ -65,14 +65,16 @@ public class NewServeur {
     static InfoFichier[] allDirectory(String path)
     {   
         File bas=new File(path);
-    
+        System.out.println(bas.getAbsolutePath());
         File[] initial= bas.listFiles();
+        
         InfoFichier[] infos=new InfoFichier[initial.length+1];
 
         //Dossier actuel
         if(bas.equals(NewServeur.base)){
-            infos[0]=new InfoFichier("Root", "root");
+            infos[0]=new InfoFichier("base", "base");
         }
+
         else{
             String oPath=bas.getAbsolutePath();
             oPath=oPath.replace(NewServeur.base.getAbsolutePath(),"");
@@ -96,7 +98,7 @@ public class NewServeur {
     static String getType(File fichier){
         if(fichier.isDirectory()){
             if(fichier.equals(base)){
-                return "root";
+                return "base";
             }
             else if(fichier.getParentFile().equals(base)){
                 return "repo";
@@ -138,12 +140,26 @@ public class NewServeur {
                     Demande demande=(Demande)toGet;
                     if(toGet instanceof SendFile){
                         SendFile send=(SendFile)demande;
+
+                        if(demande.getPath().compareTo("base")==0){
+                            System.out.println("demandeBase");
+                            demande.setPath(base.getAbsolutePath());
+                        }
+
+                        //CONSIDERER LE PATH DANS DEM COMME UN CHEMIN RELATIF EN PARTANT DE LA BASE
+                        else if(!demande.getPath().contains(NewServeur.base.getAbsolutePath())){
+                            String truePath= new File(NewServeur.base,demande.getPath()).getAbsolutePath();
+                            demande.setPath(truePath);
+                        }
+
                         FileData.createArrayFile(send.getToSend(),send.getPath());
                     }
     
                     else if(demande.getDem().compareTo("dir")==0){
                         oos=new ObjectOutputStream(client.getOutputStream());
+                        System.out.println("demande");
                         if(demande.getPath().compareTo("base")==0){
+                            System.out.println("demandeBase");
                             demande.setPath(base.getAbsolutePath());
                         }
 
@@ -155,16 +171,26 @@ public class NewServeur {
 
                         oos.writeObject(allDirectory(demande.getPath()));
                         oos.close();
-                        Thread.sleep(500);
                     }
                     
                     else if(demande.getDem().compareToIgnoreCase("SendFile")==0){
+                        if(demande.getPath().compareTo("base")==0){
+                            System.out.println("demandeBase");
+                            demande.setPath(base.getAbsolutePath());
+                        }
+
+                        //CONSIDERER LE PATH DANS DEM COMME UN CHEMIN RELATIF EN PARTANT DE LA BASE
+                        else if(!demande.getPath().contains(NewServeur.base.getAbsolutePath())){
+                            String truePath= new File(NewServeur.base,demande.getPath()).getAbsolutePath();
+                            demande.setPath(truePath);
+                        }
+
                         oos=new ObjectOutputStream(client.getOutputStream());
                         File file= new File(demande.getPath());
                         oos.writeObject(FileData.send(file));
                         oos.close();
-                        Thread.sleep(500);
                     }
+                    Thread.sleep(500);
                 }
             }
         } 

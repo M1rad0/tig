@@ -56,7 +56,7 @@
     <form action="ServletInsertFile">
         <!-- <input type="file" name="toSend"> -->
         <input type="text" name="toSend">
-        <input type="hidden" name="path" value="<%= position.geRelativePath().replace('\\','*') %>">
+        <input type="hidden" name="path" value="<%= position.getRelativePath().replace('\\','*') %>">
         <!-- <input type="file" webkitdirectory="" directory="" /> -->
         <input type="submit" value="Confirmer">
     </form>
@@ -68,11 +68,11 @@
                 if(fichier.isDirectory()){ %>
                     <a href="dossier?path=<%= path  %>"><span class="file-name"><%= fichier.getName() %></span></a>
                     <div class="file-actions">
-                        <a href="upload?path=<%= path %>&return=<%= position.getPath().replace('\\','*') %>">Pull</a>
+                        <a href="upload?path=<%= path %>&return=<%= position.getRelativePath().replace('\\','*') %>">Pull</a>
                     </div>
             <%  } 
                 else{ %>
-                    <a href="upload?path=<%= path  %>"><span class="file-name"><%= fichier.getName() %></span></a>
+                    <a href="upload?path=<%= path  %>&return=<%= position.getRelativePath().replace('\\','*') %>"><span class="file-name"><%= fichier.getName() %></span></a>
             <% } %>
             <% } %>
         </li>

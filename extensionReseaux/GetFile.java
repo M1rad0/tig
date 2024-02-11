@@ -56,7 +56,7 @@ public class GetFile extends HttpServlet {
             System.out.println("demande envoyer");
             ois=new ObjectInputStream(serveur.getInputStream());
             Object arrayList=ois.readObject();
-            FileData.createArrayFile((ArrayList<FileData>)arrayList,"C:\\Tomcatt\\apache-tomcat-9.0.80\\webapps\\github\\sauvgarde");
+            FileData.createArrayFile((ArrayList<FileData>)arrayList,"C:\\ReceiveGit");
             System.out.println("File cree");
 
             response.sendRedirect("dossier?path="+request.getParameter("return"));
